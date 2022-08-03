@@ -4,12 +4,14 @@ Proof of concept for SSO integration
 
 ### starting app
 Run below command from project directory
-```shell
-python run.py
-```
+`
+docker-compose up
+`
 
 ### Secure routes
 `/dataset`
 
 ### Unsecure routes
 `/home`
+
+
