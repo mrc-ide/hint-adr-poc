@@ -1,6 +1,7 @@
-from flask import Flask
+from flask import Flask, jsonify
 from app.config import TestingConfig, DevelopmentConfig, ProductionConfig
 import os
+from app.exceptions import AuthError
 # blueprints
 from app.errors.handlers import errors
 from app.home.routes import home
@@ -25,3 +26,10 @@ def create_app():
     app.register_blueprint(home)
 
     return app
+
+
+@app.errorhandler(AuthError)
+def authorization_error(e):
+    response = jsonify(e.error)
+    response.status_code = e.status_code
+    return response
