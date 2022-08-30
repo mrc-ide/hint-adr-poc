@@ -9,6 +9,7 @@ from app.home.routes import home
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
+app.config["CACHE_TYPE"] = "null"
 
 app.register_blueprint(errors)
 app.register_blueprint(home)
