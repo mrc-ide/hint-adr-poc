@@ -5,10 +5,9 @@ from flask import _request_ctx_stack
 from jose import jwt
 from app.exceptions import AuthError
 from app.auth0.token import get_token_auth_header
-import os
 
-AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
-API_AUDIENCE = os.getenv("API_AUDIENCE")
+AUTH0_DOMAIN = "dev-xblynil1.us.auth0.com" #Ideally domain should be secretly stored
+API_AUDIENCE = "naomi" #should be secretly stored
 ALGORITHMS = ["RS256"]
 
 
@@ -18,8 +17,7 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = get_token_auth_header()
-        path = "https://dev-xblynil1.us.auth0.com/.well-known/jwks.json"
-        jsonurl = urlopen(path)
+        jsonurl = urlopen("https://"+AUTH0_DOMAIN+"/.well-known/jwks.json")
         jwks = json.loads(jsonurl.read())
         unverified_header = jwt.get_unverified_header(token)
         rsa_key = {}
@@ -38,8 +36,8 @@ def requires_auth(f):
                     token,
                     rsa_key,
                     algorithms=ALGORITHMS,
-                    audience="naomi",
-                    issuer="https://dev-xblynil1.us.auth0.com/"
+                    audience=API_AUDIENCE,
+                    issuer="https://"+AUTH0_DOMAIN+"/"
                 )
 
             except jwt.ExpiredSignatureError:

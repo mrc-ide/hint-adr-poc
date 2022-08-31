@@ -13,13 +13,13 @@ def homepage():
     return render_template('home.html', title='Home')
 
 
-@home.route('/dataset')
+@home.route('/authorisation/dataset')
 @cross_origin(headers=["Content-Type", "Authorization"])
 @requires_auth
-def dataset():
+def authorisation():
     if requires_scope("read:dataset"):
-        return jsonify(message={
-            "indicator": "eiusmod aute minim enim in",
+        return jsonify(dataset={
+            "authorized": "datasets",
             "survey_id": "adipisicing laboris nisi sed Excepteur",
             "area_id": "ad voluptate ullamco",
             "sex": "mollit",
@@ -38,3 +38,12 @@ def dataset():
         "code": "Unauthorized",
         "description": "You don't have access to this resource"
     }, 403)
+
+
+@home.route('/authenticated/dataset')
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
+def authenticated():
+    return jsonify(dataset={
+        "authenticated": "datasets"
+    })
