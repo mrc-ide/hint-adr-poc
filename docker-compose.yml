@@ -1,4 +1,4 @@
-version: "3.9"
+version: "2.3"
 services:
   web:
     build: .
@@ -6,3 +6,10 @@ services:
     image: mrcide/hint-adr-poc
     ports:
       - "5000:5000"
+    networks:
+      - hint_nw
+
+networks:
+  hint_nw:
+    name: hint_nw
+    external: true
